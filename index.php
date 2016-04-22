@@ -15,9 +15,9 @@ ini_set('default_charset','utf-8');
 mysql_set_charset('utf8');
 header('Content-type: text/html; charset=utf-8');
 
-$sql = "SELECT DISTINCT busstop FROM `stops`  ";
+$sql = "SELECT DISTINCT busstop FROM `stops` ORDER BY busstop ";
         $query = mysql_query($sql);
-$sql2 = "SELECT busstop FROM `stops` ";
+$sql2 = "SELECT busstop FROM `stops` ORDER BY busstop ";
         $query2 = mysql_query($sql);
 echo '<html lang="ar">
 
@@ -27,14 +27,14 @@ echo '<html lang="ar">
 <title>New Page 4</title>
 </head>
 
-<body>
-
+<body ackground="grey.jpg">
+<form  action = "index.php" method="POST" >
 <div class="row">
     <div class="row">
         <div class="container-fluid">
             <div class="container-fluid">
             <img src="images/bus.jpg" alt="..." class="img-responsive" >
-                
+             
             </div>
         </div>
     </div>
@@ -48,17 +48,39 @@ echo '<html lang="ar">
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+     
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">arkb eh?</a></li>
+    
+      <li><a href="#">our services</a></li> 
+        <li><a href="#">about us</a></li> 
+        <li><a href="#">Arabic</a></li> 
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+       </ul>
+  </div>
+</nav>
+
 <div class="container">
 <div class="pull-right">
   <div class="page-header" class="text-right">
-  
+ 
     <h1> دليل المواصلات</h1>      
   </div>
    </div>
 </div>
 </body>
 
-<form  action = "index.php" method="POST" >
+
+
+
 	<div class="row">
   <div class="col-md-4"></div>
   <div class="col-md-4">
@@ -87,9 +109,9 @@ $x2= $row2['busstop'];
     echo "<option>$x2</option> ";} 
     echo' </select></p>
 	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="submit" value="Find" name="find"></p>
+        </p>
 </form>
-
+ <button name="submit" class="btn btn-info" type="submit" id="submit">اركب ايه؟   </button>
 </body>
 
 </html>';
@@ -109,7 +131,7 @@ $x2= $row2['busstop'];
 
 
 
-if (isset($_POST['find'])) 
+if (isset($_POST['submit'])) 
 { 
   $from = filter_input(INPUT_POST, 'D1');
 $to = filter_input(INPUT_POST, 'D2');
@@ -132,8 +154,9 @@ $busno= $row3['busno'];
      $query4 = mysql_query($sql4);
 if($query4==false){echo 'error false query';}
 while( $row4= mysql_fetch_array($query4)){$busno4= $row4['busno'];
+if($from!==$to){
+echo' ممكن تركب  ', $busno4 , ' عشان تروح من  ',$from , ' الى ',$to;} 
 
-echo' ممكن تركب  ', $busno4 , ' عشان تروح من  ',$from , ' الى ',$to;
 
 }}
 
