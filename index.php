@@ -11,14 +11,14 @@
 
 error_reporting(E_ALL ^ E_DEPRECATED &~E_NOTICE);
 require ('config.php');
-ini_set('default_charset','utf-8');
+/* ini_set('default_charset','utf-8');
 mysql_set_charset('utf8');
-header('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=utf-8'); */
 
-$sql = "SELECT DISTINCT busstop FROM `stops` ORDER BY busstop ";
-        $query = mysql_query($sql);
-$sql2 = "SELECT busstop FROM `stops` ORDER BY busstop ";
-        $query2 = mysql_query($sql);
+$sql = "SELECT DISTINCT busstop FROM `stops`  ";
+        $query = mysqli_query($connect,$sql);
+$sql2 = "SELECT busstop FROM `stops` ";
+        $query2 = mysqli_query($connect,$sql);
 echo '<html lang="ar">
 
 <head>
@@ -43,6 +43,7 @@ echo '<html lang="ar">
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css" type="text/css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -53,7 +54,7 @@ echo '<html lang="ar">
     <div class="navbar-header">
      
     </div>
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav ">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">arkb eh?</a></li>
     
@@ -62,8 +63,8 @@ echo '<html lang="ar">
         <li><a href="#">Arabic</a></li> 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="signin.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
        </ul>
   </div>
 </nav>
@@ -91,7 +92,7 @@ echo '<html lang="ar">
 	<select size="1" name="D1"';
 echo "<option>--</option> ";
 echo "<option> </option> ";
- while($row = mysql_fetch_array($query))
+ while($row = mysqli_fetch_array($connect,$query))
 { 
     $x= $row['busstop'];
     echo "<option>$x</option> " ;}        
@@ -103,7 +104,7 @@ echo '</select></p> <div class="row">
 	<select size="1" name="D2"';
 echo "<option>--</option> ";
 echo "<option> </option> ";
-        while($row2 = mysql_fetch_array($query2))
+          while($row2 = mysqli_fetch_array($connect,$query2))
 { 
 $x2= $row2['busstop'];
     echo "<option>$x2</option> ";} 
@@ -133,7 +134,7 @@ $x2= $row2['busstop'];
 
 if (isset($_POST['submit'])) 
 { 
-  $from = filter_input(INPUT_POST, 'D1');
+$from = filter_input(INPUT_POST, 'D1');
 $to = filter_input(INPUT_POST, 'D2');
 
 
@@ -144,16 +145,16 @@ $to = filter_input(INPUT_POST, 'D2');
                    
      
   $sql3=" SELECT * FROM `stops` WHERE busstop = '$from' ";
-     $query3 = mysql_query($sql3);
+     $query3 = mysqli_query($connect,$sql3);
   
    if($query3==false){echo 'error false query';}
-while( $row3= mysql_fetch_array($query3)){
+while( $row3= mysqli_fetch_array($connect,$query3)){
 $busno= $row3['busno'];
 
   $sql4=" SELECT * FROM `stops` WHERE busno = '$busno' AND busstop = '$to'";
-     $query4 = mysql_query($sql4);
+     $query4 = mysqli_query($connect,$sql4);
 if($query4==false){echo 'error false query';}
-while( $row4= mysql_fetch_array($query4)){$busno4= $row4['busno'];
+while( $row4= mysqli_fetch_array($connect,$query4)){$busno4= $row4['busno'];
 if($from!==$to){
 echo' ممكن تركب  ', $busno4 , ' عشان تروح من  ',$from , ' الى ',$to;} 
 
